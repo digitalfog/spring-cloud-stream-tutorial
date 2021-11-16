@@ -4,6 +4,8 @@ import com.example.springcloudstreams.avro.MyAvroEvent;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.integration.dsl.GenericEndpointSpec;
@@ -13,12 +15,16 @@ import org.springframework.integration.handler.GenericHandler;
 import org.springframework.integration.handler.ServiceActivatingHandler;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHeaders;
+import org.springframework.messaging.support.MessageBuilder;
+import org.springframework.util.MimeType;
 
 @Configuration
 @Slf4j
 public class SpringCloudStreamIntegrationFlow {
 
   private AtomicInteger counter = new AtomicInteger(0);
+
+  @Autowired private StreamBridge streamBridge;
 
   @Bean
   public IntegrationFlow avroTopicIntegrationFlow() {
@@ -37,6 +43,14 @@ public class SpringCloudStreamIntegrationFlow {
     }
     counter.set(0);
     log.info(">>>>> HANDLER. Headers = {}, Payload = {}", headers, payload);
+
+    streamBridge.send(
+        "third-avroTopic-producer",
+        MessageBuilder.withPayload(
+                MyAvroEvent.newBuilder().setGreeting("[Forward]" + payload.getGreeting()).build())
+            .setHeader("My-Header-Forward", "true")
+            .build(),
+        MimeType.valueOf("application/avro"));
     return payload;
   }
 

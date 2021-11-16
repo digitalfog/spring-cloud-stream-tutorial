@@ -19,6 +19,10 @@ spring:
           producer:
             useNativeEncoding: true
           destination: my-second-topic-avro
+        third-avroTopic-producer:
+          producer:
+            useNativeEncoding: true
+          destination: my-third-topic-avro
         avroTopic-producer:
           producer:
             useNativeEncoding: true

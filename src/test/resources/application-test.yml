@@ -1,0 +1,9 @@
+spring:
+  kafka:
+    properties:
+      schema.registry.url: mock://localhost
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: ${spring.embedded.kafka.brokers}
