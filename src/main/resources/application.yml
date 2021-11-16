@@ -1,1 +1,52 @@
+spring:
+  kafka:
+    properties:
+      security.protocol: PLAINTEXT
+      schema.registry.url: http://localhost:38081
+      auto.register.schemas: true #BEWARE. Auto register schemas is turned ON
+  cloud:
+    function:
+      definition: avroTopicFunctionConsumer;
+    stream:
+      bindings:
+        avroTopicFunctionConsumer-in-0:
+          destination: my-first-topic-avro
+          group: cloud-streams-tutorial-group-1
+        avroTopic-producer:
+          producer:
+            useNativeEncoding: true
+          destination: my-first-topic-avro
+        avroTopic-stringSerializer-producer:
+          producer:
+            useNativeEncoding: true
+          destination: my-first-topic-avro
+      # Multi cluster config example
+      # https://github.com/spring-cloud/spring-cloud-stream-samples/blob/main/multi-binder-samples/kafka-multi-binder-jaas/src/main/resources/application.yml
+      kafka:
+        default:
+          consumer:
+            configuration:
+              key.deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+              value.deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+              spring.deserializer.key.delegate.class: org.apache.kafka.common.serialization.StringDeserializer
+              spring.deserializer.value.delegate.class: io.confluent.kafka.serializers.KafkaAvroDeserializer
+          producer:
+            configuration:
+              key.serializer: org.apache.kafka.common.serialization.StringSerializer
+              value.serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+              acks: all
+              enable.idempotence: true
+        bindings:
+          avroTopic-stringSerializer-producer:
+            producer:
+              configuration:
+                key.serializer: org.apache.kafka.common.serialization.StringSerializer
+                value.serializer: org.apache.kafka.common.serialization.StringSerializer
+        binder:
+          brokers: localhost:9092
+          configuration:
+            auto.offset.reset: earliest
+            security.protocol: PLAINTEXT
+          autoCreateTopics: true #BEWARE. Auto create topics is turned ON
 
+management.endpoints.web.exposure.include: '*'

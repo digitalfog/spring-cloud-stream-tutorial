@@ -27,3 +27,15 @@ or
 ```
 lima nerdctl compose up -d
 ```
+
+# Tutorial 1
+### Send and consume message using Avro and String serializers. Shows how to override default configs for producer/consumer.
+1. Run SpringCloudStreamsApplication
+2. Open in browser localhost:8080
+3. Select `avroTopic-producer`, type any message and hit send button\
+The message will be sent to a topic using Avro serializer and consumed by SpringCloudStreamConfiguration->avroTopicFunctionConsumer\
+Check corresponding logs in console output.
+4. Select `avroTopic-stringSerializer-producer`, type any message and hit send button\
+The message will be sent using String serializer. During consumption there will be deserializationException and processing will be delegated to errorHandler.\
+Check corresponding logs in console output.
+

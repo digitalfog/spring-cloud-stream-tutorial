@@ -1,0 +1,16 @@
+{
+  "type" : "record",
+  "name" : "MyAvroEvent",
+  "namespace" : "com.example.springcloudstreams.avro",
+  "fields" : [ {
+    "name" : "eventId",
+    "type" : "long",
+    "doc" : "Id of the event",
+    "default" : 0
+  }, {
+    "name" : "greeting",
+    "type" : "string",
+    "doc" : "The greeting phrase",
+    "default" : ""
+  } ]
+}
