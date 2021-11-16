@@ -6,12 +6,19 @@ spring:
       auto.register.schemas: true #BEWARE. Auto register schemas is turned ON
   cloud:
     function:
-      definition: avroTopicFunctionConsumer;
+      definition: avroTopicFunctionConsumer;avroTopicIntegrationConsumer;
     stream:
       bindings:
         avroTopicFunctionConsumer-in-0:
           destination: my-first-topic-avro
           group: cloud-streams-tutorial-group-1
+        avroTopicIntegrationConsumer-in-0:
+          destination: my-second-topic-avro
+          group: cloud-streams-tutorial-group-1
+        second-avroTopic-producer:
+          producer:
+            useNativeEncoding: true
+          destination: my-second-topic-avro
         avroTopic-producer:
           producer:
             useNativeEncoding: true

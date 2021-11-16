@@ -30,13 +30,12 @@ public class ProduceMessageController {
 
   private Object createPayload(String channel, String greeting) {
     switch (channel) {
-      case "avroTopic-producer":
+      case "avroTopic-stringSerializer-producer":
+        return greeting;
+      default:
         return MessageBuilder.withPayload(MyAvroEvent.newBuilder().setGreeting(greeting).build())
             .setHeader("My-Header", "my-header-value")
             .build();
-      case "avroTopic-stringSerializer-producer":
-        return greeting;
     }
-    throw new UnsupportedOperationException("Unknown channel");
   }
 }
