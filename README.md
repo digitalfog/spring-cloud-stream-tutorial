@@ -29,6 +29,10 @@ lima nerdctl compose up -d
 ```
 
 # Tutorial 1
+use tag `simple-function-consumer`
+```
+git checkout simple-function-consumer
+```
 ### Send and consume message using Avro and String serializers. Shows how to override default configs for producer/consumer.
 1. Run SpringCloudStreamsApplication
 2. Open in browser localhost:8080
@@ -40,6 +44,10 @@ The message will be sent using String serializer. During consumption there will 
 Check corresponding logs in console output.
 
 # Tutorial 2
+use tag `integration-flow-consumer`
+```
+git checkout integration-flow-consumer
+```
 ### Send and consume messages via IntegrationFlow and publish metrics
 1. Run SpringCloudStreamsApplication
 2. Open in browser localhost:8080
@@ -86,3 +94,12 @@ see
    )
 ```
 `http://localhost:8080/actuator/metrics/spring.integration.send?tag=name:message-handler`
+
+# Tutorial 3
+use tag integration-tests
+```
+git checkout integration-tests
+```
+### Integration tests
+- see SpringCloudStreamIntegrationFlow_ChannelBindersTest as an example of TestBinders.
+- see SpringCloudStreamIntegrationFlow_EmbeddedKafkaTest as an example of EmbeddedKafka
